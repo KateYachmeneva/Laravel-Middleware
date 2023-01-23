@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\UserDataController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', static function () {
     return view('welcome');
 });
 
+Auth::routes(['reset' => false]);
+
 Route::group(['middleware' => 'auth'], static function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/userdata', [UserDataController::class, 'index'])->name('userdata');
+    Route::get('/userdata', [\App\Http\Controllers\UserDataController::class, 'index'])->name('userdata');
 });
